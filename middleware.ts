@@ -20,6 +20,7 @@ function isAnalyticsPath(path: string) {
 }
 
 function isCustomDomain(host: string) {
+  if (host.includes("anotherfirststep.com")) return false;
   return (
     (process.env.NODE_ENV === "development" && host?.includes(".local")) ||
     (process.env.NODE_ENV !== "development" &&
