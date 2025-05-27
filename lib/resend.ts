@@ -52,7 +52,7 @@ export const sendEmail = async ({
         : verify
         ? process.env.RESEND_SENDER_VERIFY || "Papermark <system@verify.papermark.io>"
           : !!scheduledAt
-          ? process.env.RESEND_SENDER_SYSTEM ||? "Marc Seitz <marc@papermark.io>"
+          ? process.env.RESEND_SENDER_SYSTEM || "Marc Seitz <marc@papermark.io>"
             : process.env.RESEND_SENDER_SYSTEM || "Marc from Papermark <marc@papermark.io>");
 
   try {
