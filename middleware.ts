@@ -20,15 +20,12 @@ function isAnalyticsPath(path: string) {
 }
 
 function isCustomDomain(host: string) {
-  if (host.includes("anotherfirststep.com")) return false;
   return (
     (process.env.NODE_ENV === "development" && host?.includes(".local")) ||
     (process.env.NODE_ENV !== "development" &&
       !(
         host?.includes("localhost") ||
-        host?.includes("papermark.io") ||
-        host?.includes("papermark.com") ||
-        host?.includes("anotherfirststep.com") ||
+        host?.includes(process.env.DOMAIN || "papermark.io") ||
         host?.endsWith(".vercel.app")
       ))
   );
