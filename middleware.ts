@@ -19,39 +19,18 @@ function isAnalyticsPath(path: string) {
   return pattern.test(path);
 }
 
-function isCustomDomain(hostHeader: string) {
-  // 1) Normalize: lowercase + strip port
-  const host = hostHeader.toLowerCase().split(":")[0];
-
-  const dev = process.env.NODE_ENV === "development";
-
-  // 2) In dev, treat "*.local" as non‐custom
-  if (dev && host.endsWith(".local")) {
-    return false;
-  }
-
-  // 3) Hosts we consider “standard” (incl. your own domain + subdomains)
-  const standardRoots = [
-    "localhost",
-    "papermark.io",
-    "papermark.com",
-    "anotherfirststep.com",    // your root domain
-  ];
-
-  // If host is exactly one of those roots, or a subdomain (.foo.root)
-  for (const root of standardRoots) {
-    if (host === root || host.endsWith(`.${root}`)) {
-      return false;
-    }
-  }
-
-  // 4) Also treat Vercel previews as standard
-  if (host.endsWith(".vercel.app")) {
-    return false;
-  }
-
-  // 5) Everything else is a “custom domain”
-  return true;
+function isCustomDomain(host: string) {
+  return (
+    (process.env.NODE_ENV === "development" && host?.includes(".local")) ||
+    (process.env.NODE_ENV !== "development" &&
+      !(
+        host?.includes("localhost") ||
+        host?.includes("papermark.io") ||
+        host?.includes("papermark.com") ||
+        host?.includes("anotherfirststep.com") ||
+        host?.endsWith(".vercel.app")
+      ))
+  );
 }
 
 export const config = {
